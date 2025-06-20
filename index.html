@@ -327,6 +327,14 @@
             border: 4px solid white;
         }
 
+        #ceremonyMap {
+            width: 100%;
+            height: 300px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 4px solid white;
+        }
+
         .map-link {
             display: inline-block;
             margin-top: 1rem;
@@ -681,6 +689,14 @@
 
     <section class="map-section">
         <h2 class="section-title">Место проведения</h2>
+        <p>Дворец бракосочетания</p>
+        <div class="map-container">
+            <div id="ceremonyMap"></div>
+            <a href="https://share.google/8wkLJEFQimS8USrl5" target="_blank" class="map-link">
+                📍 Открыть в 2ГИС
+            </a>
+        </div>
+
         <p>Ресторан «К-8»</p>
         <div class="map-container">
             <div id="map"></div>
@@ -751,27 +767,32 @@
             },
             events: {
                 ceremony: {
-                    time: "16:00",
+                    time: "13:00",
                     title: "Церемония бракосочетания",
                     location: "Дворец бракосочетания"
                 },
                 reception: {
-                    time: "18:00",
+                    time: "17:00",
                     title: "Праздничный банкет",
                     location: "Ресторан «К-8»<br>ул. Курганская, 8/1"
                 }
             },
+            /* основная локация (банкет) осталась как была */
             location: {
                 coordinates: [53.213, 63.635],
                 mapUrl: "https://go.2gis.com/QpzrU",
                 name: "Ресторан «К-8»",
                 address: "ул. Курганская, 8/1"
             },
-            images: {
-                couple: "assets/invite.png"
-            }
+            /* добавили локацию церемонии */
+            ceremonyLocation: {
+                coordinates: [53.242629, 63.684230],   // ул. Каирбекова, 395а :contentReference[oaicite:0]{index=0}
+                mapUrl: "https://share.google/8wkLJEFQimS8USrl5",
+                name: "Дворец бракосочетания",
+                address: "ул. Каирбекова, 395а"
+            },
+            images: { couple: "assets/invite.png" }
         };
-
         // Initialize page with configuration
         function initializePage() {
             // Set couple names
@@ -904,7 +925,7 @@
         // Map initialization
         function initializeMap() {
             DG.then(function () {
-                const map = DG.map('map', {
+                const mapReception = DG.map("map", {
                     center: WEDDING_CONFIG.location.coordinates,
                     zoom: 16,
                     fullscreenControl: false,
@@ -912,14 +933,30 @@
                 });
 
                 DG.marker(WEDDING_CONFIG.location.coordinates)
-                    .addTo(map)
+                    .addTo(mapReception)
                     .bindPopup(`
-            <div style="text-align: center; padding: 10px;">
-              <strong>${WEDDING_CONFIG.location.name}</strong><br>
-              ${WEDDING_CONFIG.location.address}<br>
-              <em>${WEDDING_CONFIG.events.reception.time} - Праздничный банкет</em>
-            </div>
-          `);
+              <div style="text-align:center;padding:10px;">
+                <strong>${WEDDING_CONFIG.location.name}</strong><br>
+                ${WEDDING_CONFIG.location.address}<br>
+                <em>${WEDDING_CONFIG.events.reception.time} – Праздничный банкет</em>
+              </div>`);
+
+                /* церемония */
+                const mapCeremony = DG.map("ceremonyMap", {
+                    center: WEDDING_CONFIG.ceremonyLocation.coordinates,
+                    zoom: 16,
+                    fullscreenControl: false,
+                    zoomControl: true
+                });
+
+                DG.marker(WEDDING_CONFIG.ceremonyLocation.coordinates)
+                    .addTo(mapCeremony)
+                    .bindPopup(`
+              <div style="text-align:center;padding:10px;">
+                <strong>${WEDDING_CONFIG.ceremonyLocation.name}</strong><br>
+                ${WEDDING_CONFIG.ceremonyLocation.address}<br>
+                <em>${WEDDING_CONFIG.events.ceremony.time} – Церемония бракосочетания</em>
+              </div>`);
             });
         }
 
@@ -1019,41 +1056,29 @@
         }
 
         // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener("DOMContentLoaded", function () {
             initializePage();
             handleAttendanceChange();
-            initializeMap();
+            initializeMap();               // теперь рисует сразу две карты
             initializeAnimations();
 
-            // Start timers and animations
             setInterval(updateCountdown, 1000);
             updateCountdown();
 
-            // Reduced animation frequency for better performance
             setInterval(createHeart, 3000);
 
-            // Event listeners
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('scroll', handleScroll);
+            document.addEventListener("mousemove", handleMouseMove);
+            document.addEventListener("scroll", handleScroll);
 
-            // Prevent form submission on Enter in inputs
-            document.querySelectorAll('.rsvp-input').forEach(input => {
-                input.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+            document.querySelectorAll(".rsvp-input").forEach((input) => {
+                input.addEventListener("keypress", function (e) {
+                    if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
                         e.preventDefault();
                         handleRsvp();
                     }
                 });
             });
         });
-
-        // Service Worker for better performance (optional)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                // You can register a service worker here for offline functionality
-                console.log('Service Worker support detected');
-            });
-        }
     </script>
 </body>
 
