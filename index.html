@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preload" as="image" href="assets/invite.webp">
+    <title>Елнар & Замира – 19 июля 2025</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.3);
+            animation: float 8s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            padding: 1rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .invitation-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .couple-names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f8f9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+
+            to {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        .couple-illustration {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .couple-image {
+            max-width: 250px;
+            margin: 0 auto;  
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            animation: floatImage 3s ease-in-out infinite;
+            background: transparent;
+        }
+
+        .couple-image img {
+            display: block;         /* убираем лишний пробел снизу */
+            max-width: 100%;
+            background:none;
+            height: auto;
+            object-fit: cover;      /* если у фото есть прозрачность */
+        }
+
+        .couple-image.placeholder {
+            background: rgba(255, 255, 255, 0.1);
+            color: #f093fb;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes floatImage {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .wedding-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .save-date {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 0.8rem;
+            min-width: 70px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .countdown-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .details-section {
+            background: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .event-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1.5rem auto;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+        }
+
+        .event-time {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-location {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .map-section {
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            text-align: center;
+        }
+
+        .map-container {
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        #map {
+            width: 100%;
+            height: 300px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 4px solid white;
+        }
+
+        .map-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .map-link:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .rsvp-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem 1rem;
+            text-align: center;
+            color: white;
+        }
+
+        .rsvp-button {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .rsvp-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .rsvp-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .rsvp-form {
+            max-width: 400px;
+            margin: 2rem auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .rsvp-input,
+        .rsvp-select {
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .rsvp-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .rsvp-input:focus,
+        .rsvp-select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .rsvp-select option {
+            background: #667eea;
+            color: white;
+        }
+
+        .attendance-options {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .attendance-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .attendance-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .attendance-option.selected {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .attendance-option input[type="radio"] {
+            display: none;
+        }
+
+        .success-message {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 1.1rem;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 0.5rem;
+                min-height: 100vh;
+            }
+
+            .invitation-card {
+                padding: 1.5rem;
+                margin: 0.5rem;
+                border-radius: 15px;
+            }
+
+            .couple-names {
+                font-size: 2rem;
+            }
+
+            .countdown {
+                gap: 0.5rem;
+            }
+
+            .countdown-item {
+                min-width: 60px;
+                padding: 0.6rem;
+            }
+
+            .countdown-number {
+                font-size: 1.3rem;
+            }
+
+            .countdown-label {
+                font-size: 0.6rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .event-card {
+                margin: 1rem;
+                padding: 1.2rem;
+            }
+
+            .details-section,
+            .map-section,
+            .rsvp-section {
+                padding: 2rem 0.5rem;
+            }
+
+            #map {
+                height: 250px;
+            }
+
+            .attendance-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .attendance-option {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .couple-image {
+                max-width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .couple-names {
+                font-size: 1.7rem;
+            }
+
+            .wedding-date {
+                font-size: 1.5rem;
+            }
+
+            .countdown-item {
+                min-width: 50px;
+                padding: 0.5rem;
+            }
+
+            .countdown-number {
+                font-size: 1.1rem;
+            }
+
+            .invitation-card {
+                padding: 1rem;
+            }
+
+            .event-card {
+                padding: 1rem;
+            }
+
+            .rsvp-form {
+                padding: 0 0.5rem;
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.6);
+            animation: sparkle 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkle {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Loading states */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Better accessibility */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-hearts" id="heartsContainer"></div>
+
+    <section class="hero">
+        <div class="invitation-card">
+            <div class="couple-illustration">
+                <div class="couple-image placeholder" id="coupleImage">👰🤵</div>
+            </div>
+            <div class="save-date">Сохраните дату</div>
+            <h1 class="couple-names" id="coupleNames">
+                <span id="groomName">Елнар</span> <span class="ampersand">&</span> <span id="brideName">Замира</span>
+            </h1>
+            <div class="wedding-date" id="weddingDate">19 июля 2025</div>
+
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">0</span>
+                    <span class="countdown-label">дней</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">0</span>
+                    <span class="countdown-label">часов</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">0</span>
+                    <span class="countdown-label">минут</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">0</span>
+                    <span class="countdown-label">секунд</span>
+                </div>
+            </div>
+
+            <p>Мы приглашаем вас разделить с нами<br>этот особенный день!</p>
+        </div>
+    </section>
+
+    <section class="details-section">
+        <h2 class="section-title">Программа торжества</h2>
+
+        <div class="event-card">
+            <div class="event-time" id="ceremonyTime">16:00</div>
+            <div class="event-title">Церемония бракосочетания</div>
+            <div class="event-location" id="ceremonyLocation">Дворец бракосочетания</div>
+        </div>
+
+        <div class="event-card">
+            <div class="event-time" id="receptionTime">18:00</div>
+            <div class="event-title">Праздничный банкет</div>
+            <div class="event-location" id="receptionLocation">
+                Ресторан «К-8»<br>ул. Курганская, 8/1
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <h2 class="section-title">Место проведения</h2>
+        <p>Ресторан «К-8» расположен в самом сердце города</p>
+        <div class="map-container">
+            <div id="map"></div>
+            <a href="https://go.2gis.com/QpzrU" target="_blank" class="map-link">
+                📍 Открыть в 2ГИС
+            </a>
+        </div>
+    </section>
+
+    <section class="rsvp-section">
+        <h2 class="section-title" style="color: white;">Подтверждение присутствия</h2>
+        <p>Пожалуйста, подтвердите ваше присутствие до <span id="rsvpDeadline">10 июля</span></p>
+
+        <div class="rsvp-form" id="rsvpForm">
+            <input type="text" id="guestName" placeholder="Ваше имя" class="rsvp-input" required>
+            <input type="tel" id="guestPhone" placeholder="Телефон" class="rsvp-input">
+
+            <div class="attendance-options">
+                <label class="attendance-option selected">
+                    <input type="radio" name="attendance" value="yes" checked>
+                    <span>✅ Буду присутствовать</span>
+                </label>
+                <label class="attendance-option">
+                    <input type="radio" name="attendance" value="no">
+                    <span>❌ Не смогу прийти</span>
+                </label>
+            </div>
+
+            <div id="attendingOptions" style="display: block;">
+                <select id="guestCount" class="rsvp-select">
+                    <option value="1">1 человек</option>
+                    <option value="2">2 человека</option>
+                    <option value="3">3 человека</option>
+                    <option value="4">4 человека</option>
+                    <option value="5">5+ человек</option>
+                </select>
+            </div>
+
+            <textarea id="guestComment" placeholder="Комментарий (необязательно)" class="rsvp-input"
+                rows="3"></textarea>
+            <button class="rsvp-button" onclick="handleRsvp()">Отправить ответ</button>
+        </div>
+
+        <div class="rsvp-success" id="rsvpSuccess" style="display: none;">
+            <div class="success-message">
+                <div id="successMessage">
+                    ✅ Спасибо! Ваш ответ получен!
+                    <p>Мы с нетерпением ждем встречи с вами! ❤️</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>С любовью, <span id="footerNames">Елнар и Замира</span> ❤️</p>
+        <p id="footerDate">19.07.2025</p>
+    </footer>
+
+    <script>
+        // Configuration object - all important data
+        const WEDDING_CONFIG = {
+            couple: {
+                groom: "Елнар",
+                bride: "Замира"
+            },
+            date: {
+                wedding: "2025-07-19T16:00:00",
+                display: "19 июля 2025",
+                displayShort: "19.07.2025",
+                rsvpDeadline: "10 июля"
+            },
+            events: {
+                ceremony: {
+                    time: "16:00",
+                    title: "Церемония бракосочетания",
+                    location: "Дворец бракосочетания"
+                },
+                reception: {
+                    time: "18:00",
+                    title: "Праздничный банкет",
+                    location: "Ресторан «К-8»<br>ул. Курганская, 8/1"
+                }
+            },
+            location: {
+                coordinates: [53.213, 63.635],
+                mapUrl: "https://go.2gis.com/QpzrU",
+                name: "Ресторан «К-8»",
+                address: "ул. Курганская, 8/1"
+            },
+            images: {
+                couple: "assets/invite.png"
+            }
+        };
+
+        // Initialize page with configuration
+        function initializePage() {
+            // Set couple names
+            document.getElementById('groomName').textContent = WEDDING_CONFIG.couple.groom;
+            document.getElementById('brideName').textContent = WEDDING_CONFIG.couple.bride;
+            document.getElementById('coupleNames').innerHTML =
+                `${WEDDING_CONFIG.couple.groom} <span class="ampersand">&</span> ${WEDDING_CONFIG.couple.bride}`;
+
+            // Set dates
+            document.getElementById('weddingDate').textContent = WEDDING_CONFIG.date.display;
+            document.getElementById('rsvpDeadline').textContent = WEDDING_CONFIG.date.rsvpDeadline;
+            document.getElementById('footerNames').textContent =
+                `${WEDDING_CONFIG.couple.groom} и ${WEDDING_CONFIG.couple.bride}`;
+            document.getElementById('footerDate').textContent = WEDDING_CONFIG.date.displayShort;
+
+            // Set event details
+            document.getElementById('ceremonyTime').textContent = WEDDING_CONFIG.events.ceremony.time;
+            document.getElementById('ceremonyLocation').textContent = WEDDING_CONFIG.events.ceremony.location;
+            document.getElementById('receptionTime').textContent = WEDDING_CONFIG.events.reception.time;
+            document.getElementById('receptionLocation').innerHTML = WEDDING_CONFIG.events.reception.location;
+
+            // Load couple image
+            loadCoupleImage();
+        }
+
+        // Load couple image with transparent background support
+        function loadCoupleImage() {
+            const coupleImg = document.getElementById('coupleImage');
+            const img = new Image();
+
+            img.onload = function () {
+                coupleImg.innerHTML = '';
+                coupleImg.appendChild(img);
+                coupleImg.classList.remove('placeholder');
+                img.style.width = '100%';
+                img.style.height = 'auto';
+                img.style.background = 'transparent';
+            };
+
+            img.onerror = function () {
+                console.log('Could not load couple image, using placeholder');
+            };
+
+            img.src = WEDDING_CONFIG.images.couple;
+            img.alt = `${WEDDING_CONFIG.couple.groom} и ${WEDDING_CONFIG.couple.bride}`;
+        }
+
+        // Countdown timer
+        function updateCountdown() {
+            const weddingDate = new Date(WEDDING_CONFIG.date.wedding).getTime();
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+            } else {
+                document.getElementById('countdown').innerHTML =
+                    '<div style="font-size: 1.5rem; color: #f093fb; text-align: center;">🎉 Сегодня наша свадьба! 🎉</div>';
+            }
+        }
+
+        // Floating hearts animation
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '♥';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            heart.style.opacity = Math.random() * 0.3 + 0.1;
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+
+            document.getElementById('heartsContainer').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
+        }
+
+        // Sparkle effect on mouse move (reduced for mobile)
+        function handleMouseMove(e) {
+            if (window.innerWidth > 768 && Math.random() < 0.05) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = '✨';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 3000);
+            }
+        }
+
+        // Handle attendance option selection
+        function handleAttendanceChange() {
+            const attendanceOptions = document.querySelectorAll('.attendance-option');
+            const attendingOptionsDiv = document.getElementById('attendingOptions');
+
+            attendanceOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    // Remove selected class from all options
+                    attendanceOptions.forEach(opt => opt.classList.remove('selected'));
+
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+
+                    // Check the radio button
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+
+                    // Show/hide guest count based on attendance
+                    if (radio.value === 'yes') {
+                        attendingOptionsDiv.style.display = 'block';
+                    } else {
+                        attendingOptionsDiv.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Map initialization
+        function initializeMap() {
+            DG.then(function () {
+                const map = DG.map('map', {
+                    center: WEDDING_CONFIG.location.coordinates,
+                    zoom: 16,
+                    fullscreenControl: false,
+                    zoomControl: true
+                });
+
+                DG.marker(WEDDING_CONFIG.location.coordinates)
+                    .addTo(map)
+                    .bindPopup(`
+            <div style="text-align: center; padding: 10px;">
+              <strong>${WEDDING_CONFIG.location.name}</strong><br>
+              ${WEDDING_CONFIG.location.address}<br>
+              <em>${WEDDING_CONFIG.events.reception.time} - Праздничный банкет</em>
+            </div>
+          `);
+            });
+        }
+
+        // RSVP handler
+        async function handleRsvp() {
+            const name = document.getElementById('guestName').value.trim();
+            const phone = document.getElementById('guestPhone').value.trim();
+            const attendance = document.querySelector('input[name="attendance"]:checked').value;
+            const count = attendance === 'yes' ? document.getElementById('guestCount').value : '0';
+            const comment = document.getElementById('guestComment').value.trim();
+
+            if (!name) {
+                alert('Пожалуйста, укажите ваше имя');
+                return;
+            }
+
+
+
+            const payload = {
+                name,
+                phone,
+                count,
+                comment,
+                timestamp: new Date().toISOString(),
+            };
+
+            const button = document.querySelector('.rsvp-button');
+            button.disabled = true;
+            button.textContent = 'Отправляем…';
+
+            try {
+                await fetch(
+                    'https://script.google.com/macros/s/AKfycbxwtggNaAa-0ImWSCoeb47TOEIy5IK8SZk_YyQ-ZjHhpQJLXPB2FMVRyBIWiBNNh6gZ/exec',   // ваш URL
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams(payload).toString(),     
+                    }
+                );
+
+                // Update success message based on attendance
+                const successDiv = document.getElementById('successMessage');
+                if (attendance === 'yes') {
+                    successDiv.innerHTML = `
+            ✅ Спасибо, ${name}! Ваше присутствие подтверждено!
+            <p>Мы с нетерпением ждем встречи с вами! ❤️</p>
+          `;
+                } else {
+                    successDiv.innerHTML = `
+            💔 Спасибо за ответ, ${name}!
+            <p>Очень жаль, что вы не сможете быть с нами, но мы понимаем! ❤️</p>
+          `;
+                }
+
+                // Show success message
+                document.getElementById('rsvpForm').style.display = 'none';
+                document.getElementById('rsvpSuccess').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз.');
+                button.disabled = false;
+                button.textContent = originalText;
+                button.classList.remove('loading');
+            }
+        }
+
+        // Smooth scrolling for better experience (reduced for mobile)
+        function handleScroll() {
+            if (window.innerWidth > 768) {
+                const scrolled = window.pageYOffset;
+                const hero = document.querySelector('.hero');
+                hero.style.transform = 'translateY(' + scrolled * 0.3 + 'px)';
+            }
+        }
+
+        // Intersection Observer for animations
+        function initializeAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.event-card, .section-title').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(el);
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            initializePage();
+            handleAttendanceChange();
+            initializeMap();
+            initializeAnimations();
+
+            // Start timers and animations
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+
+            // Reduced animation frequency for better performance
+            setInterval(createHeart, 3000);
+
+            // Event listeners
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('scroll', handleScroll);
+
+            // Prevent form submission on Enter in inputs
+            document.querySelectorAll('.rsvp-input').forEach(input => {
+                input.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                        e.preventDefault();
+                        handleRsvp();
+                    }
+                });
+            });
+        });
+
+        // Service Worker for better performance (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                // You can register a service worker here for offline functionality
+                console.log('Service Worker support detected');
+            });
+        }
+    </script>
+</body>
+
+</html>
